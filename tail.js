@@ -1,22 +1,15 @@
-/**
- * Gets all but the first element of `array`.
- *
- * @since 4.0.0
- * @category Array
- * @param {Array} array The array to query.
- * @returns {Array} Returns the slice of `array`.
- * @example
- *
- * tail([1, 2, 3])
- * // => [2, 3]
- */
-function tail(array) {
-  const length = array == null ? 0 : array.length
-  if (!length) {
-    return []
+// Asset Equal Function
+const assertEqual = function(actual, expected) {
+  if (actual === expected) {
+    console.log(`Assertion Passed: ${actual} === ${expected}`);
+  } else {
+    console.log(`Assertion Failed: ${actual} !== ${expected}`);
   }
-  const [, ...result] = array
-  return result
-}
-
-export default tail
+};
+// Tail Function - returns the tail of the array
+const tail = function(array) {
+  return array.slice(1);
+};
+// Test code
+const result = tail(["Hello", "Lighthouse", "Labs"]);
+assertEqual(result, ["Lighthouse", "Labs"]);
