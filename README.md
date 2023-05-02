@@ -1,3 +1,4 @@
+Dylan Brown
 # lodash
 
 [Site](https://lodash.com/) |
