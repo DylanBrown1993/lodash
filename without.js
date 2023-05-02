@@ -1,26 +1,51 @@
-import baseDifference from './.internal/baseDifference.js'
-import isArrayLikeObject from './isArrayLikeObject.js'
+const assertEqual = function(actual, expected) {
+  if (actual === expected) {
+    console.log(`Assertion Passed: ${actual} === ${expected}`);
+  } else {
+    console.log(`Assertion Failed: ${actual} !== ${expected}`);
+  }
+};
 
-/**
- * Creates an array excluding all given values using
- * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
- * for equality comparisons.
- *
- * **Note:** Unlike `pull`, this method returns a new array.
- *
- * @since 0.1.0
- * @category Array
- * @param {Array} array The array to inspect.
- * @param {...*} [values] The values to exclude.
- * @returns {Array} Returns the new array of filtered values.
- * @see difference, union, unionBy, unionWith, xor, xorBy, xorWith
- * @example
- *
- * without([2, 1, 2, 3], 1, 2)
- * // => [3]
- */
-function without(array, ...values) {
-  return isArrayLikeObject(array) ? baseDifference(array, values) : []
+const eqArrays = function(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
-export default without
+const assertArraysEqual = function(arr1, arr2) {
+  if (eqArrays(arr1, arr2)) {
+    console.log(`Assertion Passed: ${arr1} === ${arr2}`);
+  } else {
+    console.log(`Assertion Failed: ${arr1} !== ${arr2}`);
+  }
+};
+
+const without = function(source, itemsToRemove) {
+  const result = [];
+
+  for (let i = 0; i < source.length; i++) {
+    if (!itemsToRemove.includes(source[i])) {
+      result.push(source[i]);
+    }
+  }
+
+  return result;
+};
+
+// Test cases
+assertArraysEqual(without([1, 2, 3], [1]), [2, 3]);
+assertArraysEqual(without(["1", "2", "3"], [1, 2, "3"]), ["1", "2"]);
+
+// Make sure the original array was not altered by the without function
+const words = ["hello", "world", "lighthouse"];
+const wordsWithout = without(words, ["lighthouse"]);
+assertArraysEqual(wordsWithout, ["hello", "world"]);
+assertArraysEqual(words, ["hello", "world", "lighthouse"]);
